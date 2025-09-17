@@ -28,5 +28,8 @@ steps:
     ]
 
 # Optional: tell Cloud Build which images are built
+options:
+  default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
+
 images:
   - 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-9c8d57065892/jignesh/b55051200a3d:v1'
