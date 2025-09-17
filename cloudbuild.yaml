@@ -1,22 +1,21 @@
 # cloudbuild.yaml
 
-# 👇 Use your custom service account
-serviceAccount: projects/qwiklabs-gcp-02-9c8d57065892/serviceAccounts/ci-cd-sa@qwiklabs-gcp-02-9c8d57065892.iam.gserviceaccount.com
+serviceAccount: projects/qwiklabs-gcp-02-f0ed09e76ff9/serviceAccounts/ci-cd-sa@qwiklabs-gcp-02-f0ed09e76ff9.iam.gserviceaccount.com
 
 steps:
   # Step 1: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
-      'build', 
-      '-t', 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-9c8d57065892/jignesh/b55051200a3d:v1', 
+      'build',
+      '-t', 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-f0ed09e76ff9/jignesh/my-app:v1',
       '.'
     ]
 
   # Step 2: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: [
-      'push', 
-      'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-9c8d57065892/jignesh/b55051200a3d:v1'
+      'push',
+      'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-f0ed09e76ff9/jignesh/my-app:v1'
     ]
 
   # Step 3: Deploy to Cloud Run
@@ -24,15 +23,14 @@ steps:
     entrypoint: gcloud
     args: [
       'run', 'deploy', 'my-app',
-      '--image', 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-9c8d57065892/jignesh/b55051200a3d:v1',
+      '--image', 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-f0ed09e76ff9/jignesh/my-app:v1',
       '--region', 'europe-west1',
       '--platform', 'managed',
       '--allow-unauthenticated'
     ]
 
 images:
-  - 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-9c8d57065892/jignesh/b55051200a3d:v1'
+  - 'europe-west1-docker.pkg.dev/qwiklabs-gcp-02-f0ed09e76ff9/jignesh/my-app:v1'
 
-# 👇 Optional logging configuration (avoids bucket issues)
 options:
   logging: CLOUD_LOGGING_ONLY
